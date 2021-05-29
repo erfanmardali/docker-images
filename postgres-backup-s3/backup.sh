@@ -49,6 +49,12 @@ else
   AWS_ARGS="--endpoint-url ${S3_ENDPOINT}"
 fi
 
+if [ "${ZIP_DUMP}" = "**None**" ] || [ "${ZIP_DUMP}" = "0" ]; then
+  ZIP_DUMP=false
+else
+  ZIP_DUMP=true
+fi
+
 # env vars needed for aws tools
 export AWS_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY=$S3_SECRET_ACCESS_KEY
@@ -57,9 +63,25 @@ export AWS_DEFAULT_REGION=$S3_REGION
 export PGPASSWORD=$POSTGRES_PASSWORD
 POSTGRES_HOST_OPTS="-h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER $POSTGRES_EXTRA_OPTS"
 
-echo "Creating dump of ${POSTGRES_DATABASE} database from ${POSTGRES_HOST}..."
+if [ "${POSTGRES_DATABASE}" = "DUMPALL" ]; then
+  echo "Creating dump of all databases from ${POSTGRES_HOST}..."
 
-pg_dump $POSTGRES_HOST_OPTS $POSTGRES_DATABASE | gzip > dump.sql.gz
+  if [ $ZIP_DUMP = true ]; then
+    pg_dumpall $POSTGRES_HOST_OPTS | gzip > dump.sql.gz
+  else
+    pg_dumpall $POSTGRES_HOST_OPTS > dump.sql.gz
+  fi
+
+else
+  echo "Creating dump of ${POSTGRES_DATABASE} database from ${POSTGRES_HOST}..."
+
+  if [ $ZIP_DUMP = true ]; then
+    pg_dump $POSTGRES_HOST_OPTS $POSTGRES_DATABASE | gzip > dump.sql.gz
+  else
+    pg_dump $POSTGRES_HOST_OPTS $POSTGRES_DATABASE > dump.sql.gz
+  fi
+
+fi
 
 echo "Uploading dump to $S3_BUCKET"
 
