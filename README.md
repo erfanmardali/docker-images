@@ -48,5 +48,6 @@ You can additionally set the `SCHEDULE` environment variable like `-e SCHEDULE="
 Also, you can set the `ZIP_DUMP` to `0` or `1` to choose whether you want to zip the output file or not.
 
 You can set the `POSTGRES_DATABASE` environment to `DUMPALL` to perform `pg_dumpall` and get a full backup from the whole database.
+While setting `POSTGRES_DATABASE=DUMPALL`, please note that you need to set proper `username` and `password` that has access to all databases.
 
 More information about the scheduling can be found [here](http://godoc.org/github.com/robfig/cron#hdr-Predefined_schedules).
