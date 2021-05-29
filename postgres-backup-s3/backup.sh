@@ -49,10 +49,10 @@ else
   AWS_ARGS="--endpoint-url ${S3_ENDPOINT}"
 fi
 
-if [ "${ZIP_DUMP}" = "**None**" ] || [ "${ZIP_DUMP}" = "0" ]; then
-  ZIP_DUMP=false
-else
+if [ "${ZIP_DUMP}" = "**None**" ] || [ "${ZIP_DUMP}" = "1" ]; then
   ZIP_DUMP=true
+else
+  ZIP_DUMP=false
 fi
 
 # env vars needed for aws tools

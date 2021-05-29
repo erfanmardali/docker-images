@@ -34,10 +34,13 @@ pgbackups3:
     POSTGRES_USER: user
     POSTGRES_PASSWORD: password
     POSTGRES_EXTRA_OPTS: '--schema=public --blobs'
+    ZIP_DUMP: 1
 ```
 
 ### Automatic Periodic Backups
 
 You can additionally set the `SCHEDULE` environment variable like `-e SCHEDULE="@daily"` to run the backup automatically.
+
+Also, you can set the `ZIP_DUMP` to `0` or `1` to choose whether you want to zip the output file or not.
 
 More information about the scheduling can be found [here](http://godoc.org/github.com/robfig/cron#hdr-Predefined_schedules).
