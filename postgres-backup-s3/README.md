@@ -1,5 +1,9 @@
 # postgres-backup-s3
 
+## Important
+
+This is a forked repository with small changes from [here](https://github.com/karser/docker-images)
+
 Backup PostgresSQL to S3 (supports periodic backups)
 
 This is a fork of schickling/postgres-backup-s3 with postgres 12.4 support.
